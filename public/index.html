@@ -56,6 +56,18 @@ function chat(e) {
         },
         body: msg
     });
+    fetch('/chat', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'plain/text'
+        },
+        body: msg
+    })
+    .then(response => response.text())
+    .then(response => {
+        chatBubble(response, '/img/magpie.png', "Magpie said:");
+    });
+
 
     return false;
 }
