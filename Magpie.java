@@ -59,13 +59,13 @@ public class Magpie
             {
             response = "Say something, please.";
             }
-        else if (findKeyword(statement, "I want to", 0) >=0)
+        else if (findKeyword(statement, "I want", 0) >=0)
             {
                 response = transformIWantToStatement(statement);
             }
            
-        else if (findKeyword(statement, "me", 0) >=0
-                || findKeyword(statement, "you", 0) >=0)
+        else if (findKeyword(statement, "i", 0) >=0
+                && findKeyword(statement, "you", 0) > findKeyword(statement, "i", 0))
             {
                 response = transformYouMeStatement(statement);
             }
@@ -191,9 +191,9 @@ public class Magpie
        int kw = statement.indexOf("I want to");
        if (kw != -1) {
         // Extract the <something> part
-        String something = statement.substring(kw + "I want to ".length());
+        String something = statement.substring(kw + "I want ".length());
         // Construct the new statement
-        return "What would it mean to " + something + "?";
+        return "Would you really be happy if you had " + something + "?";
     } else {
         // Fallback if "I want to " isn't found (though assumed present)
         return "I'm not sure what you mean by that.";
@@ -208,12 +208,12 @@ public class Magpie
      */
     private String transformYouMeStatement(String statement)
     {
-        String you = "you";
-        String me = "me";
+        String you = "I";
+        String me = "you";
         int psnOfYou = findKeyword (statement, you, 0);
         int psnOfMe = findKeyword (statement, me, psnOfYou + you.length());
 
         String restOfStatement = statement.substring(psnOfYou + you.length(), psnOfMe).trim();
-        return "What makes you think that I " + restOfStatement + " you?";
+        return "Why do you " + restOfStatement + " me?";
     }
 }
